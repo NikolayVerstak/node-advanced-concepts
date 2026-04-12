@@ -11,6 +11,7 @@ class CustomPage {
       headless: 'new',
       // by turning on this no sandbox flag right here, it's going to decrease the amount of time that it takes for our test to run.
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium-browser',
     });
     const page = await browser.newPage();
     const customPage = new CustomPage(page);
