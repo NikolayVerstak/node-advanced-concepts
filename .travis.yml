@@ -1,0 +1,32 @@
+# what programming language we use inside of our project.
+language: node_js
+# list from the docs https://docs.travis-ci.com/
+node_js:
+  - "14"
+  - "16"
+  - "18"
+# what operating system we want to have on a virtual machine
+dist: trusty
+# what services the project dependents on
+services:
+  - mongodb
+  - redis-server
+env:
+  - NODE_ENV=ci PORT=3000 # anytime the Express API starts up on the Travis CI server, it's going to try to connect to port 3000
+# it should save that folder or cache it for future builds as well
+# if we do make any changes, it will overwrite any of the existing modules
+cache:
+  directories:
+    - node_modules
+    - client/node_modules
+# jobs to get the project ready to be executed inside of the virtual machine
+install: 
+  - npm install
+  - npm run build
+# where we're going to  start up the server and then execute some number of tests
+script: 
+  - nohup npm run start &
+  # add in a little pause, just to give the server a bit of time 
+  # to actually execute and start listening for incoming requests
+  - sleep 3 
+  - npm run test
