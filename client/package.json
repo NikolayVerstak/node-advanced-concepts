@@ -20,7 +20,8 @@
     "react-scripts": "1.1.5",
     "redux": "3.7.1",
     "redux-form": "7.0.1",
-    "redux-thunk": "2.2.0"
+    "redux-thunk": "2.2.0",
+    "server": "file:.."
   },
   "scripts": {
     "start": "react-scripts start",

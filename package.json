@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "jest": {
-    "setupFilesAfterEnv": ["./tests/setup.js"]
+    "setupFilesAfterEnv": [
+      "./tests/setup.js"
+    ]
   },
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js --ignore tests",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "NPM_CONFIG_PRODUCTION=false npm install --legacy-peer-deps --prefix client && npm run build --prefix client",
+    "build": "cross-env NPM_CONFIG_PRODUCTION=false npm install --legacy-peer-deps --prefix client && npm run build --prefix client",
     "heroku-postbuild": "npm run build",
     "test": "jest"
   },
@@ -22,6 +24,7 @@
     "body-parser": "1.17.2",
     "concurrently": "3.5.0",
     "cookie-session": "2.0.0-beta.2",
+    "cross-env": "^10.1.0",
     "express": "4.15.3",
     "migrate-mongoose": "3.2.2",
     "mongoose": "5.10.11",
