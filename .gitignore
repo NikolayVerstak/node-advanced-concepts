@@ -1,0 +1,8 @@
+node_modules
+nohup.out
+.DS_Store
+
+# secrets
+config/dev.js
+.env
+.env.local
