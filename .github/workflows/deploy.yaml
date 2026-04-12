@@ -1,15 +1,15 @@
 name: deploy
- 
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
- 
+
 jobs:
   build:
     runs-on: ubuntu-latest
- 
+
     services:
       mongodb:
         image: mongo:7
@@ -20,6 +20,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
       redis:
         image: redis:7
         ports:
@@ -29,13 +30,14 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
- 
+
     env:
       NODE_ENV: ci
       PORT: 3000
- 
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -43,7 +45,28 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
+
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
+
+      - name: Build client
+        run: npm run build
+
+      - name: Start server
+        run: nohup npm run start > server.log 2>&1 &
+
+      - name: Wait for server
+        run: |
+          for i in {1..15}; do
+            curl -s http://localhost:3000 && break
+            echo "Waiting for server... attempt $i"
+            sleep 2
+          done
 
       - name: Run tests
         run: npm test
+
+      - name: Print server log on failure
+        if: failure()
+        run: cat server.log

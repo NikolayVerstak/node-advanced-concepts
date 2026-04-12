@@ -8,9 +8,9 @@ class CustomPage {
       // headless: false,
 
       // CI configuration:
-      headless: true,
+      headless: 'new',
       // by turning on this no sandbox flag right here, it's going to decrease the amount of time that it takes for our test to run.
-      args: ['--no-sandbox'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
     const page = await browser.newPage();
     const customPage = new CustomPage(page);
