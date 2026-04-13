@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchBlog } from '../../actions';
-import { config } from '../../config/dev';
+import { config } from '../../config';
 
 class BlogShow extends Component {
   componentDidMount() {
@@ -10,7 +10,12 @@ class BlogShow extends Component {
 
   renderImage() {
     if (this.props.blog.imageUrl) {
-      return <img src={`${config.bucketUrl}${this.props.blog.imageUrl}`} />;
+      return (
+        <img
+          alt="blog post cover"
+          src={`${config.bucketUrl}${this.props.blog.imageUrl}`}
+        />
+      );
     }
   }
 
